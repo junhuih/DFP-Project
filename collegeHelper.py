@@ -1,5 +1,6 @@
 import helpers as h
 import bestcolleges_helper as bs_helper
+import recommender_helper as r_helper
 
 
 def collegeHelper():
@@ -29,8 +30,21 @@ def collegeHelper():
 
 
 def getRecommendation():
-    print("Recommendation!")
-    print("Not implemented yet, return to menu!")
+    print("Please input your preferences:")
+
+    print("What state would you prefer to study in: (ex. LA, PA) ")
+    preferred_state = input()
+
+    print("Your SAT Score:")
+    sat_score = int(input())
+
+    print("How much are you ready to pay for college: (in numbers)")
+    total_4_year_cost = input()
+
+    r_helper.view_recommendations(
+        preferred_state, sat_score, total_4_year_cost
+    )
+
     print("==========================")
     collegeHelper()
 
