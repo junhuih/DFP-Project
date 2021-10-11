@@ -38,4 +38,3 @@ def view_career_info_by_name(career_name):
                 + " ----"
             )
             print(search_result_row.how_to_start.iloc[0])
-

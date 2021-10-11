@@ -1,82 +1,103 @@
 import helpers as h
+import bestcolleges_helper as bs_helper
+
 
 def collegeHelper():
-    print('Welcome to college helper!')
-    print('Please select the following prompt:')
-    print('1. See recommended college based on my preferences')
-    print('2. View colleges through filters')
-    print('3. Search colleges')
-    print('4. Help')
-    print('5. Exit')
+    print("Welcome to college helper!")
+    print("Please select the following prompt:")
+    print("1. See recommended college based on my preferences")
+    print("2. View colleges through filters")
+    print("3. Browse careers")
+    print("4. Search colleges")
+    print("5. Help")
+    print("6. Exit")
 
     x = h.getInput(4)
-            
-    if (x == 1):
+
+    if x == 1:
         getRecommendation()
-    elif (x == 2):
+    elif x == 2:
         viewThroughFilter()
-    elif (x == 3):
+    elif x == 3:
+        browse_careers()
+    elif x == 4:
         h.demoFunction()
-    elif (x == 4):
+    elif x == 5:
         helpMessage()
     else:
         h.exitMessage(x)
 
 
-    
 def getRecommendation():
     print("Recommendation!")
     print("Not implemented yet, return to menu!")
-    print('==========================')
+    print("==========================")
     collegeHelper()
-    
+
+
 def getPreferences():
     x = []
     x.append(h.getInput(4))
     x.append(h.getInput(4))
     x.append(h.getInput(4))
     x.append(h.getInput(4))
-    
-    file1 = open("preferences.txt","w")
+
+    file1 = open("preferences.txt", "w")
     stringS = ""
     for content in x:
         stringS = stringS + str(content) + " "
-    
 
     file1.write(stringS)
     print("New preference entered: " + stringS)
     getRecommendation()
-    
+
+
 def viewThroughFilter():
-    print('==========================')
-    print('Viewing college by filters:')
-    print('1. View colleges with best rankings')
-    print('2. View colleges by location')
-    print('3. View colleges by tuition')
-    print('4. View colleges by returns')
-    print('5. View colleges by test scores')
-    print('6. Go back to menu')
-    
+    print("==========================")
+    print("Viewing college by filters:")
+    print("1. View colleges with best rankings")
+    print("2. View colleges by location")
+    print("3. View colleges by tuition")
+    print("4. View colleges by returns")
+    print("5. View colleges by test scores")
+    print("6. Go back to menu")
+
     x = h.getInput(6)
-            
-    if (x == 1):
+
+    if x == 1:
         h.demoFunction()
-    elif (x == 2):
+    elif x == 2:
         h.demoFunction()
-    elif (x == 3):
+    elif x == 3:
         h.demoFunction()
-    elif (x == 4):
+    elif x == 4:
         h.demoFunction()
-    elif (x == 5):
+    elif x == 5:
         h.demoFunction()
     else:
         collegeHelper()
-        
+
+
+def browse_careers():
+    print(
+        """How do you want to browse careers? (choose option)
+1. Show all careers:
+2. View career information by name:"""
+    )
+    user_input = input()
+    if user_input == "1":
+        bs_helper.view_all_careers()
+    elif user_input == "2":
+        print("Career Name:")
+        user_input = input()
+        bs_helper.view_career_info_by_name(user_input)
+
 
 def helpMessage():
-    print('==========================')
+    print("==========================")
     print("College helper is good to help you find colleges!")
-    print('==========================')
+    print("==========================")
     collegeHelper()
+
 
 collegeHelper()
