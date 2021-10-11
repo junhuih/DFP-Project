@@ -2,7 +2,6 @@ import helpers as h
 import bestcolleges_helper as bs_helper
 import recommender_helper as r_helper
 
-
 def collegeHelper():
     print("Welcome to college helper!")
     print("Please select the following prompt:")

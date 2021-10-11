@@ -2,7 +2,7 @@
 """
 Created on Sun Oct 10 20:59:38 2021
 
-@author: 20380
+@author: Mark He
 """
 
 def getInput(maxInput):
