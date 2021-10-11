@@ -3,8 +3,9 @@ def collegeHelper():
     print('Please select the following prompt:')
     print('1. See recommended college based on my preferences')
     print('2. View colleges through filters')
-    print('3. Help')
-    print('4. Exit')
+    print('3. Search colleges')
+    print('4. Help')
+    print('5. Exit')
 
     x = getInput(4)
             
@@ -13,6 +14,8 @@ def collegeHelper():
     elif (x == 2):
         viewThroughFilter()
     elif (x == 3):
+        demoFunction()
+    elif (x == 4):
         helpMessage()
     else:
         exitMessage(x)
@@ -29,10 +32,25 @@ def getInput(maxInput):
         except:
             errorMessage(x)
     
-    
 def getRecommendation():
     print("Recommendation!")
-    collegeHelper()
+    
+def getPreferences():
+    x = []
+    x.append(getInput(4))
+    x.append(getInput(4))
+    x.append(getInput(4))
+    x.append(getInput(4))
+    
+    file1 = open("preferences.txt","w")
+    stringS = ""
+    for content in x:
+        stringS = stringS + str(content) + " "
+    
+
+    file1.write(stringS)
+    print("New preference entered: " + stringS)
+    getRecommendation()
     
 def viewThroughFilter():
     print('==========================')
