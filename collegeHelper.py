@@ -32,6 +32,7 @@ def getInput(maxInput):
     
 def getRecommendation():
     print("Recommendation!")
+    collegeHelper()
     
 def viewThroughFilter():
     print('==========================')
@@ -46,15 +47,15 @@ def viewThroughFilter():
     x = getInput(6)
             
     if (x == 1):
-        helpMessage()
+        demoFunction()
     elif (x == 2):
-        helpMessage()
+        demoFunction()
     elif (x == 3):
-        helpMessage()
+        demoFunction()
     elif (x == 4):
-        helpMessage()
+        demoFunction()
     elif (x == 5):
-        helpMessage()
+        demoFunction()
     else:
         collegeHelper()
 
@@ -74,5 +75,10 @@ def exitMessage(x):
     print('==========================')
     print("Thank you for using college helper!")
     return
+
+def demoFunction():
+    print('==========================')
+    print('fill up demo function, program ends here')
+    print('==========================')
 
 collegeHelper()
