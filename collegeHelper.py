@@ -1,3 +1,5 @@
+import helpers as h
+
 def collegeHelper():
     print('Welcome to college helper!')
     print('Please select the following prompt:')
@@ -7,40 +9,33 @@ def collegeHelper():
     print('4. Help')
     print('5. Exit')
 
-    x = getInput(4)
+    x = h.getInput(4)
             
     if (x == 1):
         getRecommendation()
     elif (x == 2):
         viewThroughFilter()
     elif (x == 3):
-        demoFunction()
+        h.demoFunction()
     elif (x == 4):
         helpMessage()
     else:
-        exitMessage(x)
+        h.exitMessage(x)
 
-def getInput(maxInput):
-    while (True):
-        x = input()
-        try:
-            intX = int(x)
-            if (0 < intX and intX <= maxInput):
-                return intX
-            else:
-                errorMessage(x)
-        except:
-            errorMessage(x)
+
     
 def getRecommendation():
     print("Recommendation!")
+    print("Not implemented yet, return to menu!")
+    print('==========================')
+    collegeHelper()
     
 def getPreferences():
     x = []
-    x.append(getInput(4))
-    x.append(getInput(4))
-    x.append(getInput(4))
-    x.append(getInput(4))
+    x.append(h.getInput(4))
+    x.append(h.getInput(4))
+    x.append(h.getInput(4))
+    x.append(h.getInput(4))
     
     file1 = open("preferences.txt","w")
     stringS = ""
@@ -62,41 +57,26 @@ def viewThroughFilter():
     print('5. View colleges by test scores')
     print('6. Go back to menu')
     
-    x = getInput(6)
+    x = h.getInput(6)
             
     if (x == 1):
-        demoFunction()
+        h.demoFunction()
     elif (x == 2):
-        demoFunction()
+        h.demoFunction()
     elif (x == 3):
-        demoFunction()
+        h.demoFunction()
     elif (x == 4):
-        demoFunction()
+        h.demoFunction()
     elif (x == 5):
-        demoFunction()
+        h.demoFunction()
     else:
         collegeHelper()
+        
 
 def helpMessage():
     print('==========================')
     print("College helper is good to help you find colleges!")
     print('==========================')
     collegeHelper()
-    
-def errorMessage(x):
-    print('==========================')
-    print("You've entered " + x + ", which is an invalid input.")
-    print("Please enter again!")
-    return
-    
-def exitMessage(x):
-    print('==========================')
-    print("Thank you for using college helper!")
-    return
-
-def demoFunction():
-    print('==========================')
-    print('fill up demo function, program ends here')
-    print('==========================')
 
 collegeHelper()
