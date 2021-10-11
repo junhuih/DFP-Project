@@ -8,7 +8,7 @@ Created on Sun Oct 10 20:19:16 2021
 import requests
 
 # credential
-bearer_token = "AAAAAAAAAAAAAAAAAAAAALw%2FTwEAAAAA5mGzkkQRzM5lUExaBkZDfYbS3Y0%3DwqRFpCaqzANZn3kiEwO85WoxjE5PAsQ54tSokCZFvPZy0zI2JT"
+bearer_token = "REPLACE_WITH_KEY"
 
 def getTwitterComments(school_name):
     url = "https://api.twitter.com/2/tweets/search/recent?query="
