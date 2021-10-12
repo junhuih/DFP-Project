@@ -5,6 +5,8 @@ Created on Tue Oct 12 16:53:39 2021
 @author: Mark He
 """
 import pandas as pd
+import helpers as h
+import numpy as np
 
 
 us_state_to_abbrev = {
@@ -71,7 +73,7 @@ us_state_to_abbrev = {
 abbrev_to_us_state = dict(map(reversed, us_state_to_abbrev.items()))
 
 # Get the average statistics for a given state
-def get_average_stats(dataframe):
+def get_average_stats(dataframe = h.read_final_data()):
     newR = []
     for i, row in dataframe.iterrows():
         roi = (row['20 Year Net ROI'][1:].replace(',',''))
@@ -95,7 +97,13 @@ def get_average_stats(dataframe):
             loan = 0
         newR.append((roi, cost, graduate, loan))
     newR = pd.DataFrame(newR)
-    print(newR.mean())
+    print("==========================")
+    print("Displaying average stats about all colleges")
+    print('%-30s' % "Average 20 Year Net ROI: " + str(np.round(newR.mean()[0], 2)))
+    print('%-30s' % "Total 4 Year Cost: " + str(np.round(newR.mean()[1], 2)))
+    print('%-30s' % "Typical Years to Graduate: " + str(np.round(newR.mean()[2], 2)))
+    print('%-30s' % "Average Loan Amount: " + str(np.round(newR.mean()[3], 2)))
+    print()
     
 # Funciton adapted from https://stackoverflow.com/questions/39742305/how-to-use-basemap-python-to-plot-us-with-50-states
 # Draw the data based on the input, with regards to state and value
@@ -142,15 +150,13 @@ def draw_map(inputValue, title):
     cb = ColorbarBase(cax,cmap=cmap.reversed(),norm=norm, orientation='horizontal')
     plt.show()
     
-def compute_stats_and_draw_map(dataframe):
+def compute_roi_and_draw_map(dataframe = h.read_final_data()):
     average = dict()
     for value in abbrev_to_us_state.values():
         average[value] = (0,0)
     
     for i, row in dataframe.iterrows():
         roi = (row['20 Year Net ROI'][1:].replace(',',''))
-        cost = (row['Total 4 Year Cost'][1:].replace(',',''))
-        loan = (row['Average Loan Amount'][1:].replace(',',''))
         try:
             roi = int(roi)
         except:
@@ -162,13 +168,70 @@ def compute_stats_and_draw_map(dataframe):
             average[state] = (allVal + roi, count + 1)
         except:
             pass
-    print("Passed")
-    print(average)
     for key in average.keys():
         a, b = average[key]
         try:
             average[key] = a/b
         except:
             average[key] = 0
-    print(average)
     draw_map(average, "Average ROI By States ($)")
+    print("Please refer to the map!")
+    
+def compute_cost_and_draw_map(dataframe = h.read_final_data()):
+    average = dict()
+    for value in abbrev_to_us_state.values():
+        average[value] = (0,0)
+    
+    for i, row in dataframe.iterrows():
+        cost = (row['Total 4 Year Cost'][1:].replace(',',''))
+        try:
+            cost = int(cost)
+        except:
+            cost = 0
+            
+        try:
+            state = abbrev_to_us_state[(row['State'])]
+            (allVal, count) = average[state]
+            average[state] = (allVal + cost, count + 1)
+        except:
+            pass
+    for key in average.keys():
+        a, b = average[key]
+        try:
+            average[key] = a/b
+        except:
+            average[key] = 0
+    draw_map(average, "Total 4 Year Cost ($)")
+    print("Please refer to the map!")
+    
+def compute_loan_and_draw_map(dataframe = h.read_final_data()):
+    average = dict()
+    for value in abbrev_to_us_state.values():
+        average[value] = (0,0)
+    
+    for i, row in dataframe.iterrows():
+        loan = (row['Average Loan Amount'][1:].replace(',',''))
+        try:
+            loan = int(loan)
+        except:
+            loan = 0
+            
+        try:
+            state = abbrev_to_us_state[(row['State'])]
+            (allVal, count) = average[state]
+            average[state] = (allVal + loan, count + 1)
+        except:
+            pass
+    for key in average.keys():
+        a, b = average[key]
+        try:
+            average[key] = a/b
+        except:
+            average[key] = 0
+    draw_map(average, "Average Loan Amount ($)")
+    print("Please refer to the map!")
+    
+if __name__ == '__main__':
+    compute_roi_and_draw_map()
+    compute_cost_and_draw_map()
+    compute_loan_and_draw_map()

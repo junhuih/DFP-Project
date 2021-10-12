@@ -4,18 +4,11 @@ Created on Tue Oct 12 17:05:42 2021
 
 @author: Mark He
 """
-import twitterComment as tc
-import fbiCrimeData as fbi
+import twitter_comment as tc
+import fbi_crime_data as fbi
 import pandas as pd
 import matplotlib.pyplot as plt
-
-def read_final_data():
-    d = pd.read_excel("Merged_data.xlsx")
-    d = d.drop_duplicates(
-            subset=['School Name', '20 Year Net ROI', 'Total 4 Year Cost', 'Graduation Rate', 'Typical Years to Graduate'])
-    d["Rank"] = range(len(d))
-    d["School Name"] = [(s.split("-")[0]+" - "+s.split("-")[1]).strip() if s.find("-")!=-1 else s for s in d["School Name"]]
-    return d
+import helpers as h
 
 #######################Display the data#######################
 def search_colleges(college, dataframe):
@@ -37,6 +30,7 @@ def search_colleges(college, dataframe):
                 dataframe.loc[dataframe["School Name"] == i, ["Average Loan Amount"]].values[0][0]))
             print('%-30s' % "Acceptance Rate: " + dataset.loc[dataset["School Name"] == i, ["Acceptance Rate"]].values[0][0])
             print('%-30s' % "SAT Range: " + dataset.loc[dataset["School Name"] == i, ["SAT Range"]].values[0][0])
+            print()
             print("The most recent Twitter Comments: ")
             plt.style.use('seaborn-white')
             tc.getTwitterComments(i)
@@ -61,14 +55,18 @@ def search_colleges(college, dataframe):
                             # axes[x, y].xticks(df['count'])
                 plt.show()
                 break
+            print("Crime data displayed by plot.")
         else:
             if i == college_name[len(college_name)-1]:
                 print("We can not find the " + college + ". Please check your input. ")
             else: continue
 
 
+def search_colleges_wrapper():
+    college = input("Please enter the college name you want to search: ")
+    search_colleges(college, h.read_final_data())
 
 if __name__ == '__main__':
     
     college = input("Please enter the college name you want to search: ")
-    search_colleges(college, read_final_data())
+    search_colleges(college, h.read_final_data())

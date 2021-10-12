@@ -1,101 +1,86 @@
 import helpers as h
 import bestcolleges_helper as bs_helper
 import recommender_helper as r_helper
+import search_colleges as sc
+import average_stats as avg_stat
 
-def collegeHelper():
+def college_helper():
     print("Welcome to college helper!")
     print("Please select the following prompt:")
     print("1. See recommended college based on my preferences")
-    print("2. View colleges through filters")
+    print("2. See top level stats about colleges")
     print("3. Browse careers")
     print("4. Search colleges")
     print("5. Help")
     print("6. Exit")
 
-    x = h.getInput(4)
+    x = h.get_input(6)
 
     if x == 1:
         getRecommendation()
     elif x == 2:
-        viewThroughFilter()
+        viewGeneralData()
     elif x == 3:
         browse_careers()
     elif x == 4:
-        h.demoFunction()
+        sc.search_colleges_wrapper()
+        college_helper()
     elif x == 5:
         helpMessage()
     else:
         h.exitMessage(x)
+        return
 
 
 def getRecommendation():
     print("Please input your preferences:")
 
     print("What state would you prefer to study in: (ex. LA, PA) ")
-    preferred_state = input()
+    preferred_state = h.get_states()
 
     print("Your SAT Score:")
-    sat_score = int(input())
+    sat_score = h.get_input(1600)
 
     print("How much are you ready to pay for college: (in numbers)")
-    total_4_year_cost = input()
+    total_4_year_cost = h.get_input(1000000)
 
     r_helper.view_recommendations(
         preferred_state, sat_score, total_4_year_cost
     )
 
     print("==========================")
-    collegeHelper()
+    college_helper()
 
-
-def getPreferences():
-    x = []
-    x.append(h.getInput(4))
-    x.append(h.getInput(4))
-    x.append(h.getInput(4))
-    x.append(h.getInput(4))
-
-    file1 = open("preferences.txt", "w")
-    stringS = ""
-    for content in x:
-        stringS = stringS + str(content) + " "
-
-    file1.write(stringS)
-    print("New preference entered: " + stringS)
-    getRecommendation()
-
-
-def viewThroughFilter():
+def viewGeneralData():
     print("==========================")
     print("Viewing college by filters:")
-    print("1. View colleges with best rankings")
-    print("2. View colleges by location")
-    print("3. View colleges by tuition")
-    print("4. View colleges by returns")
-    print("5. View colleges by test scores")
-    print("6. Go back to menu")
+    print("1. View the average stats of all states")
+    print("2. View ROI by states")
+    print("3. View total 4 year costs by states")
+    print("4. View average loan amount by states")
+    print("5. Go back to menu")
 
-    x = h.getInput(6)
+    x = h.get_input(5)
 
     if x == 1:
-        h.demoFunction()
+        avg_stat.get_average_stats()
+        viewGeneralData()
     elif x == 2:
-        h.demoFunction()
+        avg_stat.compute_roi_and_draw_map()
+        viewGeneralData()
     elif x == 3:
-        h.demoFunction()
+        avg_stat.compute_cost_and_draw_map()
+        viewGeneralData()
     elif x == 4:
-        h.demoFunction()
-    elif x == 5:
-        h.demoFunction()
+        avg_stat.compute_loan_and_draw_map()
+        viewGeneralData()
     else:
-        collegeHelper()
+        college_helper()
 
 
 def browse_careers():
     print(
-        """How do you want to browse careers? (choose option)
-1. Show all careers:
-2. View career information by name:"""
+        """How do you want to browse careers? (choose option)\n1. Show all careers:\n2. View career information by name:"""
     )
     user_input = input()
     if user_input == "1":
@@ -104,13 +89,19 @@ def browse_careers():
         print("Career Name:")
         user_input = input()
         bs_helper.view_career_info_by_name(user_input)
+        
+    print("==========================")
+    print()
+    college_helper()
 
 
 def helpMessage():
     print("==========================")
     print("College helper is good to help you find colleges!")
+    print("You can navigate through the menu and browse useful informations! The information would be valuable for you to find the college that matches the best with your preferences!")
     print("==========================")
-    collegeHelper()
+    college_helper()
 
 
-collegeHelper()
+if __name__ == '__main__':
+    college_helper()
