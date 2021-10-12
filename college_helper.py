@@ -88,20 +88,23 @@ def view_general_data():
 
 def browse_careers():
     print(
-        """How do you want to browse careers?(choose option)\n
-1. Show all careers:\n
-2. View career information by name:"""
+        """How do you want to browse careers? (choose an option)
+1. Show all careers:
+2. View career information by name
+3. Exit"""
     )
-    user_input = input()
-    if user_input == "1":
+    user_input = h.get_input(3)
+    if user_input == 1:
         bs_helper.view_all_careers()
-    elif user_input == "2":
+        browse_careers()
+    elif user_input == 2:
         print("Career Name:")
         user_input = input()
         bs_helper.view_career_info_by_name(user_input)
-
-    print("\n==========================")
-    college_helper()
+        browse_careers()
+    else:
+        print("\n==========================")
+        college_helper()
 
 
 def help_message():

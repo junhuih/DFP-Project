@@ -81,7 +81,7 @@ categories_of_interest = [
 ]
 
 
-def getCrimeDataOfInterest(assult_category, state):
+def get_crime_data_of_interest(assult_category, state):
     state_data_link = (
         "https://api.usa.gov/crime/fbi/sapi/api/data/nibrs/"
         + categories_of_interest[assult_category]
@@ -90,10 +90,14 @@ def getCrimeDataOfInterest(assult_category, state):
         + "/count?API_KEY="
         + API_KEY
     )
-    response = urlopen(state_data_link)
-    if response is None:
+    try:
+        response = urlopen(state_data_link)
+        if response is None:
+            return pd.DataFrame(columns=["count", "data_year"])
+        else:
+            data_json = json.loads(response.read())
+            crimedf = pd.DataFrame(data_json["results"])
+            return crimedf
+    except:
+        print("Error occurred while trying to contact FBI APIs")
         return pd.DataFrame(columns=["count", "data_year"])
-    else:
-        data_json = json.loads(response.read())
-        crimedf = pd.DataFrame(data_json["results"])
-        return crimedf

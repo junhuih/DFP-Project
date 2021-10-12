@@ -9,6 +9,7 @@ import pandas as pd
 import matplotlib.pyplot as plt
 import helpers as h
 
+
 #######################Display the data#######################
 def search_colleges(college, dataframe):
     college_name = dataframe["School Name"]
@@ -40,7 +41,7 @@ def search_colleges(college, dataframe):
                 fig, axes = plt.subplots(nrows=2, ncols=2, figsize=(8, 8))
                 for x in range(2):
                     for y in range(2):
-                        df = fbi.getCrimeDataOfInterest(x * 2 + y, fbi.all_states.index(dataset.loc[dataset["School Name"] == i, ["State"]].values[0][0]))
+                        df = fbi.get_crime_data_of_interest(x * 2 + y, fbi.all_states.index(dataset.loc[dataset["School Name"] == i, ["State"]].values[0][0]))
                         df = df.fillna(0)
                         if df.empty:
                             axes[x, y].plot()
@@ -58,14 +59,13 @@ def search_colleges(college, dataframe):
         else:
             if i == college_name[len(college_name)-1]:
                 print("We can not find the " + college + ". Please check your input. ")
-            else: continue
 
 
 def search_colleges_wrapper():
     college = input("Please enter the college name you want to search: ")
     search_colleges(college, h.read_final_data())
 
+
 if __name__ == '__main__':
-    
     college = input("Please enter the college name you want to search: ")
     search_colleges(college, h.read_final_data())
