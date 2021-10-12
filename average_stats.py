@@ -70,6 +70,7 @@ us_state_to_abbrev = {
 # invert the dictionary
 abbrev_to_us_state = dict(map(reversed, us_state_to_abbrev.items()))
 
+# Get the average statistics for a given state
 def get_average_stats(dataframe):
     newR = []
     for i, row in dataframe.iterrows():

@@ -1,3 +1,10 @@
+# -*- coding: utf-8 -*-
+"""
+Created on Tue Oct 12 17:05:42 2021
+
+@author: Mark He
+"""
+
 from urllib.request import urlopen
 import json
 import pandas as pd
@@ -18,6 +25,7 @@ all_states = ['AL', 'AK', 'AZ', 'AR', 'CA', 'CO', 'CT', 'DE', 'FL', 'GA', 'HI', 
               'OH', 'OK', 'OR', 'PA', 'RI', 'SC', 'SD', 'TN', 'TX', 'UT', 'VT', 'VA', 'WA', 'WV', 'WI', 'WY']
 
 
+# Get the selected four crime statistics for the given state, with data provided by FBI
 categories_of_interest = ['murder-and-nonnegligent-manslaughter', 'rape', 'robbery', 'drug-violations']
 def getCrimeDataOfInterest(assult_category, state):
     state_data_link = "https://api.usa.gov/crime/fbi/sapi/api/data/nibrs/" + categories_of_interest[
