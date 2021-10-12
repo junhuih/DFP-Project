@@ -3,6 +3,8 @@
 @author: Yifan Cheng, Skylar Du, Yashash Gaurav, Mark He
 """
 
+import pandas as pd
+
 all_states = [
     "AL",
     "AK",
@@ -55,8 +57,6 @@ all_states = [
     "WI",
     "WY",
 ]
-
-import pandas as pd
 
 
 def get_input(maxInput):

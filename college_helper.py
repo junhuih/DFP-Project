@@ -2,11 +2,15 @@
 """
 @author: Yifan Cheng, Skylar Du, Yashash Gaurav, Mark He
 """
+
+# This is our main program file that displays the menu for the user to use
+
+
 import helpers as h
-import bestcolleges_helper as bs_helper
-import recommender_helper as r_helper
 import search_colleges as sc
 import average_stats as avg_stat
+import recommender_helper as r_helper
+import bestcolleges_helper as bs_helper
 
 
 def college_helper():
@@ -38,6 +42,7 @@ def college_helper():
         return
 
 
+# Gets recommendation for the client given his preferences
 def get_recommendation():
     print("Please input your preferences:")
 
@@ -58,6 +63,7 @@ def get_recommendation():
     college_helper()
 
 
+# Show general data to the client about school across the US
 def view_general_data():
     print("==========================")
     print("Viewing college by filters:")
@@ -86,6 +92,9 @@ def view_general_data():
         college_helper()
 
 
+# I am sure you don't understand all the careers out there.
+# This function allows you to search through careers and see
+# how can one pursue that career
 def browse_careers():
     print(
         """How do you want to browse careers? (choose an option)
@@ -107,15 +116,20 @@ def browse_careers():
         college_helper()
 
 
+# Displays the helper string for the client
 def help_message():
     print("==========================")
     print("College helper is good to help you find colleges!")
     print(
-        "You can navigate through the menu and browse useful informations! The information would be valuable for you to find the college that matches the best with your preferences!"
+        """
+You can navigate through the menu and browse useful information!
+The information would be valuable for you to find the college that matches the best with your preferences!
+        """
     )
     print("==========================")
     college_helper()
 
 
+# Where everything begins!
 if __name__ == "__main__":
     college_helper()

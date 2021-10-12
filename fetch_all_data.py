@@ -3,13 +3,13 @@
 @author: Yifan Cheng, Skylar Du, Yashash Gaurav, Mark He
 """
 
-from urllib.request import urlopen
+import time
+import random
+import requests
 import pandas as pd
 from bs4 import BeautifulSoup
+from urllib.request import urlopen
 from pandas.core.frame import DataFrame
-import time
-import requests
-import random
 from user_agent import DESKTOP_USER_AGENTS
 
 

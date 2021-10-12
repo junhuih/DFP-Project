@@ -3,9 +3,9 @@
 @author: Yifan Cheng, Skylar Du, Yashash Gaurav, Mark He
 """
 
-from urllib.request import urlopen
 import json
 import pandas as pd
+from urllib.request import urlopen
 
 #######################CRIME DATA#######################
 # FBI DATA api key
@@ -81,6 +81,7 @@ categories_of_interest = [
 ]
 
 
+# Gets data about crime data of a state for an assault_category.
 def get_crime_data_of_interest(assult_category, state):
     state_data_link = (
         "https://api.usa.gov/crime/fbi/sapi/api/data/nibrs/"

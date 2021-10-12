@@ -2,15 +2,15 @@
 """
 @author: Yifan Cheng, Skylar Du, Yashash Gaurav, Mark He
 """
-import pandas as pd
-import numpy as np
 
+# Importing required packages
+import numpy as np
+import pandas as pd
 from fuzzywuzzy import fuzz
 from fuzzywuzzy import process
 
-
+# Declaring global variables
 bestcolleges_data_path = "data\\bestcolleges_careers.csv"
-
 bestcolleges_data = pd.read_csv(bestcolleges_data_path)
 
 
@@ -25,11 +25,15 @@ def view_all_careers():
 
 # Search and print all information for the given career
 def view_career_info_by_name(searched_career):
+
+    # Doing a partial search to find the search term in the database.
     closest_result = process.extractOne(
         searched_career,
         bestcolleges_data.career_name.to_list(),
         scorer=fuzz.partial_ratio,
-    )
+    )  # Selects rows that meet the search criteria 
+
+    # If we have results, show!
     if len(closest_result) > 0:
         search_result_row = bestcolleges_data[
             bestcolleges_data.career_name == closest_result[0]
@@ -38,6 +42,7 @@ def view_career_info_by_name(searched_career):
             "Here is some guidance on " + search_result_row.career_name.iloc[0]
         )
 
+        # If data point exists, show else skip the section
         if search_result_row.career_info is not np.nan:
             print("----  Info ----")
             print(search_result_row.career_info.iloc[0])

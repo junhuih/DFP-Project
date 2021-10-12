@@ -2,27 +2,28 @@
 """
 @author: Yifan Cheng, Skylar Du, Yashash Gaurav, Mark He
 """
+# this script is to scrape bestcollege.com for information on career data
 import pandas as pd
 from selenium import webdriver
 from selenium.common.exceptions import NoSuchElementException
 
 
-# sanity
+# Sanity
 driver = webdriver.Edge(
     executable_path="C:\\Users\\Yashash Gaurav\\Downloads\\edgedriver_win64 (2)\\msedgedriver.exe"
 )
 
 
-# get all career links
+# Get all career links
 driver.get("https://www.bestcolleges.com/careers/")
 career_anchors = driver.find_elements_by_css_selector(
     "div.swiper-slide a[data-wpel-link='internal']"
 )
 career_links = [career.get_attribute("href") for career in career_anchors]
-# loop through urls collected and collect data
-
 
 career_data_list = []
+
+# Loop through urls collected and collect data
 for career in career_links:
     driver.get(career)
     career_name = driver.find_element_by_css_selector("section.hero h1").text
@@ -62,15 +63,15 @@ for career in career_links:
         }
     )
 
+# Create a data frame of the data collected
 career_data = pd.DataFrame(
     career_data_list,
     columns=["career_name", "career_info", "why_career", "how_to_start"],
 )
 
+# Save the data frame created for future use.
 career_data.to_csv(
-    ".output\\bestcolleges_careers.csv", index=False, encoding="utf-8"
+    "data\\bestcolleges_careers.csv", index=False, encoding="utf-8"
 )
-
-career_data.head()
 
 driver.close()
