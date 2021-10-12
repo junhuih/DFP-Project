@@ -1,22 +1,18 @@
+# -*- coding: utf-8 -*-
+"""
+Created on Tue Oct 12 17:05:42 2021
 
-# This is a sample Python script.
-import openpyxl as openpyxl
-from urllib.request import urlopen  # b_soup_1.py
-
+@author: Mark He
+"""
+from urllib.request import urlopen 
 import pandas as pd
 from bs4 import BeautifulSoup
 from pandas.core.frame import DataFrame
-from urllib.request import urlopen
-import json
-import re
 import time
 import requests
 import random
-# import user_agents
-# from user_agents import DESKTOP_USER_AGENTS
-import csv
+from user_agent import DESKTOP_USER_AGENTS
 
-import numpy as np
 
 #######################ROI DATA#######################
 # Crawl the ROI data with beautifulsoup
@@ -171,4 +167,3 @@ def merge_data():
     merged_data = pd.merge(roi, niche, how='left', on="School Name")
     merged_data = merged_data.drop(labels='Unnamed: 0',axis=1)
     merged_data.to_excel("Merged_data.xlsx")
-

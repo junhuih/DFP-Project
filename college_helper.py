@@ -24,6 +24,7 @@ def college_helper():
         browse_careers()
     elif x == 4:
         sc.search_colleges_wrapper()
+        print("\n==========================")
         college_helper()
     elif x == 5:
         helpMessage()
@@ -48,7 +49,7 @@ def getRecommendation():
         preferred_state, sat_score, total_4_year_cost
     )
 
-    print("==========================")
+    print("\n==========================")
     college_helper()
 
 def viewGeneralData():
@@ -75,6 +76,7 @@ def viewGeneralData():
         avg_stat.compute_loan_and_draw_map()
         viewGeneralData()
     else:
+        print("\n==========================")
         college_helper()
 
 
@@ -90,8 +92,7 @@ def browse_careers():
         user_input = input()
         bs_helper.view_career_info_by_name(user_input)
         
-    print("==========================")
-    print()
+    print("\n==========================")
     college_helper()
 
 
