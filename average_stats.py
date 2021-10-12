@@ -66,17 +66,18 @@ us_state_to_abbrev = {
     "United States Minor Outlying Islands": "UM",
     "U.S. Virgin Islands": "VI",
 }
-    
+
 # invert the dictionary
 abbrev_to_us_state = dict(map(reversed, us_state_to_abbrev.items()))
 
+
 # Get the average statistics for a given state
-def get_average_stats(dataframe = h.read_final_data()):
+def get_average_stats(dataframe=h.read_final_data()):
     newR = []
     for i, row in dataframe.iterrows():
-        roi = (row['20 Year Net ROI'][1:].replace(',',''))
-        cost = (row['Total 4 Year Cost'][1:].replace(',',''))
-        loan = (row['Average Loan Amount'][1:].replace(',',''))
+        roi = row["20 Year Net ROI"][1:].replace(",", "")
+        cost = row["Total 4 Year Cost"][1:].replace(",", "")
+        loan = row["Average Loan Amount"][1:].replace(",", "")
         try:
             roi = int(roi)
         except:
@@ -86,7 +87,7 @@ def get_average_stats(dataframe = h.read_final_data()):
         except:
             cost = 0
         try:
-            graduate = int(row['Typical Years to Graduate'])
+            graduate = int(row["Typical Years to Graduate"])
         except:
             graduate = 0
         try:
@@ -97,12 +98,19 @@ def get_average_stats(dataframe = h.read_final_data()):
     newR = pd.DataFrame(newR)
     print("==========================")
     print("Displaying average stats about all colleges")
-    print('%-30s' % "Average 20 Year Net ROI: " + str(np.round(newR.mean()[0], 2)))
-    print('%-30s' % "Total 4 Year Cost: " + str(np.round(newR.mean()[1], 2)))
-    print('%-30s' % "Typical Years to Graduate: " + str(np.round(newR.mean()[2], 2)))
-    print('%-30s' % "Average Loan Amount: " + str(np.round(newR.mean()[3], 2)))
+    print(
+        "%-30s" % "Average 20 Year Net ROI: "
+        + str(np.round(newR.mean()[0], 2))
+    )
+    print("%-30s" % "Total 4 Year Cost: " + str(np.round(newR.mean()[1], 2)))
+    print(
+        "%-30s" % "Typical Years to Graduate: "
+        + str(np.round(newR.mean()[2], 2))
+    )
+    print("%-30s" % "Average Loan Amount: " + str(np.round(newR.mean()[3], 2)))
     print()
-    
+
+
 # Funciton adapted from https://stackoverflow.com/questions/39742305/how-to-use-basemap-python-to-plot-us-with-50-states
 # Draw the data based on the input, with regards to state and value
 def draw_map(inputValue, title):
@@ -112,57 +120,74 @@ def draw_map(inputValue, title):
     from matplotlib.colors import rgb2hex
     from matplotlib.patches import Polygon
     from matplotlib.colors import Normalize
-    
+
     from matplotlib.colorbar import ColorbarBase
+
     # Lambert Conformal map of lower 48 states.
-    m = Basemap(llcrnrlon=-119,llcrnrlat=22,urcrnrlon=-64,urcrnrlat=49,
-            projection='lcc',lat_1=33,lat_2=45,lon_0=-95)
-    shp_info = m.readshapefile('st99_d00','states',drawbounds=True)
+    m = Basemap(
+        llcrnrlon=-119,
+        llcrnrlat=22,
+        urcrnrlon=-64,
+        urcrnrlat=49,
+        projection="lcc",
+        lat_1=33,
+        lat_2=45,
+        lon_0=-95,
+    )
+    shp_info = m.readshapefile("st99_d00", "states", drawbounds=True)
     # choose a color for each state based on population density.
-    colors={}
-    statenames=[]
-    cmap = plt.cm.hot # use 'hot' colormap
-    vmin = min(inputValue.values()); vmax = max(inputValue.values()) # set range.
+    colors = {}
+    statenames = []
+    cmap = plt.cm.hot  # use 'hot' colormap
+    vmin = min(inputValue.values())
+    vmax = max(inputValue.values())  # set range.
     for shapedict in m.states_info:
-        statename = shapedict['NAME']
+        statename = shapedict["NAME"]
         # skip DC and Puerto Rico.
-        if statename not in ['District of Columbia','Puerto Rico']:
+        if statename not in ["District of Columbia", "Puerto Rico"]:
             curValue = inputValue[statename]
             # calling colormap with value between 0 and 1 returns
             # rgba value.  Invert color range (hot colors are high
             # population), take sqrt root to spread out colors more.
-            colors[statename] = cmap(1-np.sqrt((curValue-vmin)/(vmax-vmin)))[:4]
+            colors[statename] = cmap(
+                1 - np.sqrt((curValue - vmin) / (vmax - vmin))
+            )[:4]
         statenames.append(statename)
     # cycle through state names, color each one.
-    ax = plt.gca() # get current axes instance
-    for nshape,seg in enumerate(m.states):
+    ax = plt.gca()  # get current axes instance
+    for nshape, seg in enumerate(m.states):
         # skip DC and Puerto Rico.
-        if statenames[nshape] not in ['District of Columbia','Puerto Rico']:
-            color = rgb2hex(colors[statenames[nshape]]) 
-            poly = Polygon(seg,facecolor=color,edgecolor=color)
+        if statenames[nshape] not in ["District of Columbia", "Puerto Rico"]:
+            color = rgb2hex(colors[statenames[nshape]])
+            poly = Polygon(seg, facecolor=color, edgecolor=color)
             ax.add_patch(poly)
     plt.title(title)
-    
-    norm = Normalize(vmin=min(inputValue.values()), vmax=max(inputValue.values()))
-    cax = plt.gcf().add_axes([0.27, 0.1, 0.5, 0.05]) # posititon
-    cb = ColorbarBase(cax,cmap=cmap.reversed(),norm=norm, orientation='horizontal')
+
+    norm = Normalize(
+        vmin=min(inputValue.values()), vmax=max(inputValue.values())
+    )
+    cax = plt.gcf().add_axes([0.27, 0.1, 0.5, 0.05])  # posititon
+    cb = ColorbarBase(
+        cax, cmap=cmap.reversed(), norm=norm, orientation="horizontal"
+    )
     plt.show()
-    
+
+
 # Compute the return over interest and draw the map
-def compute_roi_and_draw_map(dataframe = h.read_final_data()):
+def compute_roi_and_draw_map(dataframe=h.read_final_data()):
     average = dict()
     for value in abbrev_to_us_state.values():
-        average[value] = (0,0)
-    
+        average[value] = (0, 0)
+
     for i, row in dataframe.iterrows():
-        roi = (row['20 Year Net ROI'][1:].replace(',',''))
+        roi = row["20 Year Net ROI"][1:].replace(",", "")
         try:
             roi = int(roi)
         except:
             roi = 0
-            
+
         try:
-            state = abbrev_to_us_state[(row['State'])]
+            state = abbrev_to_us_state[(row["State"])]
             (allVal, count) = average[state]
             average[state] = (allVal + roi, count + 1)
         except:
@@ -170,27 +195,28 @@ def compute_roi_and_draw_map(dataframe = h.read_final_data()):
     for key in average.keys():
         a, b = average[key]
         try:
-            average[key] = a/b
+            average[key] = a / b
         except:
             average[key] = 0
     draw_map(average, "Average ROI By States ($)")
     print("Please refer to the map!")
-    
+
+
 # Compute the cost and draw the map
-def compute_cost_and_draw_map(dataframe = h.read_final_data()):
+def compute_cost_and_draw_map(dataframe=h.read_final_data()):
     average = dict()
     for value in abbrev_to_us_state.values():
-        average[value] = (0,0)
-    
+        average[value] = (0, 0)
+
     for i, row in dataframe.iterrows():
-        cost = (row['Total 4 Year Cost'][1:].replace(',',''))
+        cost = row["Total 4 Year Cost"][1:].replace(",", "")
         try:
             cost = int(cost)
         except:
             cost = 0
-            
+
         try:
-            state = abbrev_to_us_state[(row['State'])]
+            state = abbrev_to_us_state[(row["State"])]
             (allVal, count) = average[state]
             average[state] = (allVal + cost, count + 1)
         except:
@@ -198,27 +224,28 @@ def compute_cost_and_draw_map(dataframe = h.read_final_data()):
     for key in average.keys():
         a, b = average[key]
         try:
-            average[key] = a/b
+            average[key] = a / b
         except:
             average[key] = 0
     draw_map(average, "Total 4 Year Cost ($)")
     print("Please refer to the map!")
-    
+
+
 # Compute the loan and draw the map
-def compute_loan_and_draw_map(dataframe = h.read_final_data()):
+def compute_loan_and_draw_map(dataframe=h.read_final_data()):
     average = dict()
     for value in abbrev_to_us_state.values():
-        average[value] = (0,0)
-    
+        average[value] = (0, 0)
+
     for i, row in dataframe.iterrows():
-        loan = (row['Average Loan Amount'][1:].replace(',',''))
+        loan = row["Average Loan Amount"][1:].replace(",", "")
         try:
             loan = int(loan)
         except:
             loan = 0
-            
+
         try:
-            state = abbrev_to_us_state[(row['State'])]
+            state = abbrev_to_us_state[(row["State"])]
             (allVal, count) = average[state]
             average[state] = (allVal + loan, count + 1)
         except:
@@ -226,13 +253,14 @@ def compute_loan_and_draw_map(dataframe = h.read_final_data()):
     for key in average.keys():
         a, b = average[key]
         try:
-            average[key] = a/b
+            average[key] = a / b
         except:
             average[key] = 0
     draw_map(average, "Average Loan Amount ($)")
     print("Please refer to the map!")
-    
-if __name__ == '__main__':
+
+
+if __name__ == "__main__":
     compute_roi_and_draw_map()
     compute_cost_and_draw_map()
     compute_loan_and_draw_map()

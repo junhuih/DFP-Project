@@ -18,19 +18,81 @@ selected_categories = all_categories[0:15]
 
 
 # all states
-all_states = ['AL', 'AK', 'AZ', 'AR', 'CA', 'CO', 'CT', 'DE', 'FL', 'GA', 'HI', 'ID', 'IL', 'IN', 'IA', 'KS', 'KY',
-              'LA', 'ME', 'MD', 'MA', 'MI', 'MN', 'MS', 'MO', 'MT', 'NE', 'NV', 'NH', 'NJ', 'NM', 'NY', 'NC', 'ND',
-              'OH', 'OK', 'OR', 'PA', 'RI', 'SC', 'SD', 'TN', 'TX', 'UT', 'VT', 'VA', 'WA', 'WV', 'WI', 'WY']
+all_states = [
+    "AL",
+    "AK",
+    "AZ",
+    "AR",
+    "CA",
+    "CO",
+    "CT",
+    "DE",
+    "FL",
+    "GA",
+    "HI",
+    "ID",
+    "IL",
+    "IN",
+    "IA",
+    "KS",
+    "KY",
+    "LA",
+    "ME",
+    "MD",
+    "MA",
+    "MI",
+    "MN",
+    "MS",
+    "MO",
+    "MT",
+    "NE",
+    "NV",
+    "NH",
+    "NJ",
+    "NM",
+    "NY",
+    "NC",
+    "ND",
+    "OH",
+    "OK",
+    "OR",
+    "PA",
+    "RI",
+    "SC",
+    "SD",
+    "TN",
+    "TX",
+    "UT",
+    "VT",
+    "VA",
+    "WA",
+    "WV",
+    "WI",
+    "WY",
+]
 
 
 # Get the selected four crime statistics for the given state, with data provided by FBI
-categories_of_interest = ['murder-and-nonnegligent-manslaughter', 'rape', 'robbery', 'drug-violations']
+categories_of_interest = [
+    "murder-and-nonnegligent-manslaughter",
+    "rape",
+    "robbery",
+    "drug-violations",
+]
+
+
 def getCrimeDataOfInterest(assult_category, state):
-    state_data_link = "https://api.usa.gov/crime/fbi/sapi/api/data/nibrs/" + categories_of_interest[
-        assult_category] + "/victim/states/" + all_states[state] + "/count?API_KEY=" + API_KEY
+    state_data_link = (
+        "https://api.usa.gov/crime/fbi/sapi/api/data/nibrs/"
+        + categories_of_interest[assult_category]
+        + "/victim/states/"
+        + all_states[state]
+        + "/count?API_KEY="
+        + API_KEY
+    )
     response = urlopen(state_data_link)
     if response is None:
-        return pd.DataFrame(columns=['count', 'data_year'])
+        return pd.DataFrame(columns=["count", "data_year"])
     else:
         data_json = json.loads(response.read())
         crimedf = pd.DataFrame(data_json["results"])

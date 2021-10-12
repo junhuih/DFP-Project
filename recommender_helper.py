@@ -14,7 +14,8 @@ def view_recommendations(preferred_state, sat_score, total_4_year_cost):
     in_range_college = merged_data[
         (merged_data["State"] == preferred_state)
         & (merged_data["SAT Min"] < sat_score)
-        # & (merged_data['SAT Max'] > sat_score) - the more the score the better?
+        # & (merged_data['SAT Max'] > sat_score) - the more the 
+        # score the better?
         & (
             merged_data["Total 4 Year Cost (Integer)"]
             < (float(total_4_year_cost) * 1.1)
@@ -23,7 +24,13 @@ def view_recommendations(preferred_state, sat_score, total_4_year_cost):
 
     if len(in_range_college) > 0:
         print("Here are the schools that we recommend!:")
+
+        result_count = 0
         for index, college in in_range_college.iterrows():
+            result_count += 1
+            if result_count > 10:
+                print("\n^   Showing top 10 results!   ^\n")
+                break
             print("- - - - - - - - - - - - - - - - - - - - - - - - - -")
             print(f"20 Year Net ROI:   {str(college[2]):>30}")
             print(f"College Name:      {str(college[1]):>30}")

@@ -8,6 +8,7 @@ import recommender_helper as r_helper
 import search_colleges as sc
 import average_stats as avg_stat
 
+
 def college_helper():
     print("Welcome to college helper!")
     print("Please select the following prompt:")
@@ -21,9 +22,9 @@ def college_helper():
     x = h.get_input(6)
 
     if x == 1:
-        getRecommendation()
+        get_recommendation()
     elif x == 2:
-        viewGeneralData()
+        view_general_data()
     elif x == 3:
         browse_careers()
     elif x == 4:
@@ -31,13 +32,13 @@ def college_helper():
         print("\n==========================")
         college_helper()
     elif x == 5:
-        helpMessage()
+        help_message()
     else:
         h.exitMessage(x)
         return
 
 
-def getRecommendation():
+def get_recommendation():
     print("Please input your preferences:")
 
     print("What state would you prefer to study in: (ex. LA, PA) ")
@@ -56,7 +57,8 @@ def getRecommendation():
     print("\n==========================")
     college_helper()
 
-def viewGeneralData():
+
+def view_general_data():
     print("==========================")
     print("Viewing college by filters:")
     print("1. View the average stats of all states")
@@ -69,16 +71,16 @@ def viewGeneralData():
 
     if x == 1:
         avg_stat.get_average_stats()
-        viewGeneralData()
+        view_general_data()
     elif x == 2:
         avg_stat.compute_roi_and_draw_map()
-        viewGeneralData()
+        view_general_data()
     elif x == 3:
         avg_stat.compute_cost_and_draw_map()
-        viewGeneralData()
+        view_general_data()
     elif x == 4:
         avg_stat.compute_loan_and_draw_map()
-        viewGeneralData()
+        view_general_data()
     else:
         print("\n==========================")
         college_helper()
@@ -86,7 +88,9 @@ def viewGeneralData():
 
 def browse_careers():
     print(
-        """How do you want to browse careers? (choose option)\n1. Show all careers:\n2. View career information by name:"""
+        """How do you want to browse careers?(choose option)\n
+1. Show all careers:\n
+2. View career information by name:"""
     )
     user_input = input()
     if user_input == "1":
@@ -95,18 +99,20 @@ def browse_careers():
         print("Career Name:")
         user_input = input()
         bs_helper.view_career_info_by_name(user_input)
-        
+
     print("\n==========================")
     college_helper()
 
 
-def helpMessage():
+def help_message():
     print("==========================")
     print("College helper is good to help you find colleges!")
-    print("You can navigate through the menu and browse useful informations! The information would be valuable for you to find the college that matches the best with your preferences!")
+    print(
+        "You can navigate through the menu and browse useful informations! The information would be valuable for you to find the college that matches the best with your preferences!"
+    )
     print("==========================")
     college_helper()
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     college_helper()

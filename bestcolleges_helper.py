@@ -22,6 +22,7 @@ def view_all_careers():
     ):
         print(str(index + 1) + ". " + careers_name)
 
+
 # Search and print all information for the given career
 def view_career_info_by_name(searched_career):
     closest_result = process.extractOne(
