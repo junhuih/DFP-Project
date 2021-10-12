@@ -1,9 +1,8 @@
 # -*- coding: utf-8 -*-
 """
-Created on Tue Oct 12 17:05:42 2021
-
-@author: Mark He
+@author: Yifan Cheng, Skylar Du, Yashash Gaurav, Mark He
 """
+
 import twitter_comment as tc
 import fbi_crime_data as fbi
 import pandas as pd

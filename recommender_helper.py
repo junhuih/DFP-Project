@@ -1,3 +1,8 @@
+# -*- coding: utf-8 -*-
+"""
+@author: Yifan Cheng, Skylar Du, Yashash Gaurav, Mark He
+"""
+
 import pandas as pd
 
 merged_data_path = "data\\merged_data.xlsx"

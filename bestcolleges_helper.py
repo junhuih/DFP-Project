@@ -1,3 +1,7 @@
+# -*- coding: utf-8 -*-
+"""
+@author: Yifan Cheng, Skylar Du, Yashash Gaurav, Mark He
+"""
 import pandas as pd
 import numpy as np
 
@@ -10,6 +14,7 @@ bestcolleges_data_path = "data\\bestcolleges_careers.csv"
 bestcolleges_data = pd.read_csv(bestcolleges_data_path)
 
 
+# Print all the careers
 def view_all_careers():
     print("We are ready to guide you on the following careers : ")
     for index, careers_name in enumerate(
@@ -17,7 +22,7 @@ def view_all_careers():
     ):
         print(str(index + 1) + ". " + careers_name)
 
-
+# Search and print all information for the given career
 def view_career_info_by_name(searched_career):
     closest_result = process.extractOne(
         searched_career,

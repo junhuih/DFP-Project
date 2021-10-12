@@ -1,13 +1,11 @@
 # -*- coding: utf-8 -*-
 """
-Created on Tue Oct 12 16:53:39 2021
-
-@author: Mark He
+@author: Yifan Cheng, Skylar Du, Yashash Gaurav, Mark He
 """
+
 import pandas as pd
 import helpers as h
 import numpy as np
-
 
 us_state_to_abbrev = {
     "Alabama": "AL",
@@ -150,6 +148,7 @@ def draw_map(inputValue, title):
     cb = ColorbarBase(cax,cmap=cmap.reversed(),norm=norm, orientation='horizontal')
     plt.show()
     
+# Compute the return over interest and draw the map
 def compute_roi_and_draw_map(dataframe = h.read_final_data()):
     average = dict()
     for value in abbrev_to_us_state.values():
@@ -177,6 +176,7 @@ def compute_roi_and_draw_map(dataframe = h.read_final_data()):
     draw_map(average, "Average ROI By States ($)")
     print("Please refer to the map!")
     
+# Compute the cost and draw the map
 def compute_cost_and_draw_map(dataframe = h.read_final_data()):
     average = dict()
     for value in abbrev_to_us_state.values():
@@ -204,6 +204,7 @@ def compute_cost_and_draw_map(dataframe = h.read_final_data()):
     draw_map(average, "Total 4 Year Cost ($)")
     print("Please refer to the map!")
     
+# Compute the loan and draw the map
 def compute_loan_and_draw_map(dataframe = h.read_final_data()):
     average = dict()
     for value in abbrev_to_us_state.values():

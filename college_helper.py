@@ -1,3 +1,7 @@
+# -*- coding: utf-8 -*-
+"""
+@author: Yifan Cheng, Skylar Du, Yashash Gaurav, Mark He
+"""
 import helpers as h
 import bestcolleges_helper as bs_helper
 import recommender_helper as r_helper

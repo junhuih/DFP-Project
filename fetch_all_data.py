@@ -1,9 +1,8 @@
 # -*- coding: utf-8 -*-
 """
-Created on Tue Oct 12 17:05:42 2021
-
-@author: Mark He
+@author: Yifan Cheng, Skylar Du, Yashash Gaurav, Mark He
 """
+
 from urllib.request import urlopen 
 import pandas as pd
 from bs4 import BeautifulSoup

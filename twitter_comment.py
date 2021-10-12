@@ -1,10 +1,7 @@
 # -*- coding: utf-8 -*-
 """
-Created on Sun Oct 10 20:19:16 2021
-
-@author: Mark He
+@author: Yifan Cheng, Skylar Du, Yashash Gaurav, Mark He
 """
-
 import requests
 
 # credential

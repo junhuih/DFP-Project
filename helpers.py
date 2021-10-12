@@ -1,9 +1,8 @@
 # -*- coding: utf-8 -*-
 """
-Created on Sun Oct 10 20:59:38 2021
-
-@author: Mark He
+@author: Yifan Cheng, Skylar Du, Yashash Gaurav, Mark He
 """
+
 all_states = ['AL', 'AK', 'AZ', 'AR', 'CA', 'CO', 'CT', 'DE', 'FL', 'GA', 'HI', 'ID', 'IL', 'IN', 'IA', 'KS', 'KY',
               'LA', 'ME', 'MD', 'MA', 'MI', 'MN', 'MS', 'MO', 'MT', 'NE', 'NV', 'NH', 'NJ', 'NM', 'NY', 'NC', 'ND',
               'OH', 'OK', 'OR', 'PA', 'RI', 'SC', 'SD', 'TN', 'TX', 'UT', 'VT', 'VA', 'WA', 'WV', 'WI', 'WY']
