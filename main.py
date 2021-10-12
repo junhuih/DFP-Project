@@ -176,16 +176,6 @@ all_states = ['AL', 'AK', 'AZ', 'AR', 'CA', 'CO', 'CT', 'DE', 'FL', 'GA', 'HI', 
               'OH', 'OK', 'OR', 'PA', 'RI', 'SC', 'SD', 'TN', 'TX', 'UT', 'VT', 'VA', 'WA', 'WV', 'WI', 'WY']
 
 
-# def getCrimeData(assult_category, state):
-#     state_data_link = "https://api.usa.gov/crime/fbi/sapi/api/data/nibrs/" + all_categories[
-#         assult_category] + "/victim/states/" + all_states[state] + "/count?API_KEY=" + API_KEY
-#     response = urlopen(state_data_link)
-#     if response is None:
-#         return pd.DataFrame(columns=['count', 'data_year'])
-#     else:
-#         data_json = json.loads(response.read())
-#         crimedf = pd.DataFrame(data_json["results"])
-#         return crimedf
 categories_of_interest = ['murder-and-nonnegligent-manslaughter', 'rape', 'robbery', 'drug-violations']
 def getCrimeDataOfInterest(assult_category, state):
     state_data_link = "https://api.usa.gov/crime/fbi/sapi/api/data/nibrs/" + categories_of_interest[
@@ -233,9 +223,6 @@ def search_colleges(college, dataframe):
     college_name = dataframe["School Name"]
     dataset = pd.read_excel("Merged_data.xlsx")
     dataset = dataset.fillna('missing')
-    # if college.title() not in college_name.values:
-    #     print("We can not find the "+college+". Please check your input. ")
-    # else:
     for i in college_name:
         if i.upper().find(college.upper()) != -1:
             print("******************" + i + "******************")
@@ -254,24 +241,27 @@ def search_colleges(college, dataframe):
             print("The most recent Twitter Comments: ")
             plt.style.use('seaborn-white')
             getTwitterComments(i)
-            plt.style.use('seaborn-white')
-
-            fig, axes = plt.subplots(nrows=2, ncols=2, figsize=(8, 8))
-            for x in range(2):
-                for y in range(2):
-                    df = getCrimeDataOfInterest(x * 2 + y, all_states.index(dataset.loc[dataset["School Name"] == i, ["State"]].values[0][0]))
-                    df = df.fillna(0)
-                    if df.empty:
-                        axes[x, y].plot()
-                        axes[x, y].set_title("There's not enough data to plot")
-                    else:
-                        df = df[df['data_year'] > 2009]
-                        axes[x, y].plot(df.iloc[:, 1], df.iloc[:, 0])
-                        axes[x, y].set_title(categories_of_interest[x * 2 + y].replace("-", " ").title())
-                        fig.tight_layout()
-                        # axes[x, y].xticks(df['data_year'])
-                        # axes[x, y].xticks(df['count'])
-            plt.show()
+            if dataset.loc[dataset["School Name"] == i, ["State"]].values[0][0] == "missing":
+                break
+            else:
+                plt.style.use('seaborn-white')
+                fig, axes = plt.subplots(nrows=2, ncols=2, figsize=(8, 8))
+                for x in range(2):
+                    for y in range(2):
+                        df = getCrimeDataOfInterest(x * 2 + y, all_states.index(dataset.loc[dataset["School Name"] == i, ["State"]].values[0][0]))
+                        df = df.fillna(0)
+                        if df.empty:
+                            axes[x, y].plot()
+                            axes[x, y].set_title("There's not enough data to plot")
+                        else:
+                            df = df[df['data_year'] > 2009]
+                            axes[x, y].plot(df.iloc[:, 1], df.iloc[:, 0])
+                            axes[x, y].set_title(categories_of_interest[x * 2 + y].replace("-", " ").title())
+                            fig.tight_layout()
+                            # axes[x, y].xticks(df['data_year'])
+                            # axes[x, y].xticks(df['count'])
+                plt.show()
+                break
         else:
             if i == college_name[len(college_name)-1]:
                 print("We can not find the " + college + ". Please check your input. ")
@@ -279,4 +269,9 @@ def search_colleges(college, dataframe):
 
 if __name__ == '__main__':
     # merge_data()
-    search_colleges("United States Merchant Marine Academy", clean_roi())
+    # get_roi()
+    # clean_roi()
+    # get_niche()
+    # merge_data()
+    college = input("Please enter the college name you want to search: ")
+    search_colleges(college, clean_roi())
