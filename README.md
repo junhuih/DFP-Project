@@ -23,15 +23,23 @@ Users can do 4 things in College Helper:
 3. Browse careers
 4. Search colleges
 
-
 ## 2. How to use it? 
 
 ### 2.1 Install Anaconda with Python 3.8
 Download Link: https://www.anaconda.com/products/individual#Links
 
-Then follow the instrution to install it. 
+Then follow the instruction to install it. 
 
 ### 2.2 Build the environment
+
+Follow the below instructions or you can just use our 'environment.yaml' to create your own environment
+
+```
+conda env create -f environment.yaml
+```
+
+else:
+
 1. Open Anaconda Navigator
 2. Click "Environments", then click "Channels"
 ![image](https://user-images.githubusercontent.com/90162689/137042205-d3319e26-85c9-4878-919f-ad6fba926c96.png)
@@ -66,7 +74,3 @@ Menu:
 5. Refresh data - Only refreshes data that does not need a WebDriver. To collect all data, make sure you set the Edge Driver path in the fetch_all_data.py file and uncomment the code line in refresh_all_data() method.
 
 Demo video: https://www.youtube.com/watch?v=V7iRnBtlZ7c
-## 3. How to Contribute to this Project?
-
-
-
