@@ -107,10 +107,7 @@ def clean_roi():
         else s
         for s in roi["School Name"]
     ]
-<<<<<<< Updated upstream
     #os.remove("output.xlsx")
-=======
->>>>>>> Stashed changes
     return roi
 
 
