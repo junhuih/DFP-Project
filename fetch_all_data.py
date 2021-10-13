@@ -127,7 +127,7 @@ def get_niche():
     # create a list with the url of all 82 pages of the ranking
     allurl = ["https://www.niche.com/colleges/search/best-value-colleges/",]
     nexturl = "https://www.niche.com/colleges/search/best-value-colleges/?page="
-    for i in range(2,3):
+    for i in range(2,82):
         myurl = nexturl+str(i)
         allurl.append(myurl)
     
@@ -214,9 +214,9 @@ def get_niche():
     writer.writerow(fields)
     for i in range(len(cleaned_school_name)):
         if cleaned_school_name[i] != "null":
-            writer.writerow([cleaned_school_name[i], city[i], state[i], Acceptance_Rate[i], Net_Price[i], SAT_Range[i]])
-    
+            writer.writerow([cleaned_school_name[i], city[i], state[i], Acceptance_Rate[i], Net_Price[i], SAT_Range[i]])    
     file.close()
+    
 
 #######################Merge the data#######################
 def add_calculation_columns(merged_data):
@@ -252,7 +252,8 @@ def add_calculation_columns(merged_data):
 def merge_data():
     roi = clean_roi()
     roi["Rank"] = roi["Rank"] + 1
-    niche = pd.read_csv("cleaned_niche.csv").drop_duplicates()
+    niche = pd.read_csv("cleaned_niche.csv", encoding='ISO-8859-1')
+    niche = niche.drop_duplicates()
     merged_data = pd.merge(roi, niche, how="left", on="School Name")
     merged_data = merged_data.drop(labels="Unnamed: 0", axis=1)
     add_calculation_columns(merged_data)
@@ -340,5 +341,5 @@ def get_careers_data():
     )
 
     driver.close()
-
-get_niche()
+    
+merge_data()
