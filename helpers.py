@@ -104,7 +104,7 @@ def demoFunction():
 
 
 def read_final_data():
-    d = pd.read_excel("Merged_data.xlsx")
+    d = pd.read_excel("merged_data.xlsx")
     d = d.drop_duplicates(
         subset=[
             "School Name",

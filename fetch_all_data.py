@@ -3,14 +3,23 @@
 @author: Yifan Cheng, Skylar Du, Yashash Gaurav, Mark He
 """
 
+import os
 import time
 import random
 import requests
+import numpy as np
 import pandas as pd
 from bs4 import BeautifulSoup
+from selenium import webdriver
 from urllib.request import urlopen
 from pandas.core.frame import DataFrame
 from user_agent import DESKTOP_USER_AGENTS
+from selenium.common.exceptions import NoSuchElementException
+
+
+edge_driver_path = (
+    "path/to/webdriver"
+)
 
 
 #######################ROI DATA#######################
@@ -97,10 +106,7 @@ def clean_roi():
         else s
         for s in roi["School Name"]
     ]
-    # for i in roi["School Name"]:
-    #     if i.find("-") == -1:
-    #         i = i
-    #     else: i = str(i).split('-')[0]+" - "+ str(i).split('-')[1]
+    os.remove("output.xlsx")
     return roi
 
 
@@ -207,10 +213,124 @@ def get_niche():
 
 
 #######################Merge the data#######################
+def add_calculation_columns(merged_data):
+    def convert_curreny_to_int(currency):
+        try:
+            return int(currency.replace(",", "").replace("$", ""))
+        except:
+            return np.NaN
+
+    def get_sat_range_min(sat_range):
+        if type(sat_range) is float and np.isnan(sat_range):
+            return np.nan
+        else:
+            return int(sat_range.split("-")[0])
+
+    def get_sat_range_max(sat_range):
+        if type(sat_range) is float and np.isnan(sat_range):
+            return np.nan
+        else:
+            return int(sat_range.split("-")[1])
+
+    merged_data["SAT Min"] = merged_data["SAT Range"].map(
+        lambda cell: get_sat_range_min(cell)
+    )
+    merged_data["SAT Max"] = merged_data["SAT Range"].map(
+        lambda cell: get_sat_range_max(cell)
+    )
+    merged_data["Total 4 Year Cost (Integer)"] = merged_data[
+        "Total 4 Year Cost"
+    ].map(lambda x: convert_curreny_to_int(x))
+
+
 def merge_data():
     roi = clean_roi()
     roi["Rank"] = roi["Rank"] + 1
     niche = pd.read_csv("cleaned_niche.csv").drop_duplicates()
     merged_data = pd.merge(roi, niche, how="left", on="School Name")
     merged_data = merged_data.drop(labels="Unnamed: 0", axis=1)
-    merged_data.to_excel("Merged_data.xlsx")
+    add_calculation_columns(merged_data)
+    merged_data.to_excel("merged_data.xlsx")
+
+
+##################### Combining Fetch ###############
+def refresh_all_data():
+    get_roi()
+    get_niche()
+    merge_data()
+    # get_careers_data() - uncomment if you have webdriver path set
+    print("Success! All data is refreshed.")
+
+
+#################### Best Colleges Data ####################
+# this portion of the script is to scrape bestcollege.com
+# for information on career data
+
+
+def get_careers_data():
+    # Call your browser
+    driver = webdriver.Edge(executable_path=edge_driver_path)
+
+    # Get all career links
+    driver.get("https://www.bestcolleges.com/careers/")
+    career_anchors = driver.find_elements_by_css_selector(
+        "div.swiper-slide a[data-wpel-link='internal']"
+    )
+    career_links = [career.get_attribute("href") for career in career_anchors]
+
+    career_data_list = []
+
+    # Loop through urls collected and collect data
+    for career in career_links:
+        driver.get(career)
+        career_name = driver.find_element_by_css_selector(
+            "section.hero h1"
+        ).text
+        career_info = driver.find_element_by_css_selector(
+            "section.container.content>p:first-child"
+        ).text
+
+        try:
+            why_career = driver.find_element_by_css_selector(
+                'a[id^="why-pursue"]+h2+p'
+            ).text
+            why_career += (
+                " "
+                + driver.find_element_by_css_selector(
+                    'a[id^="why-pursue"]+h2+p+div+p'
+                ).text
+            )
+        except NoSuchElementException:
+            why_career = ""
+
+        try:
+            how_to_start = driver.find_element_by_css_selector(
+                "a#advancing-your-career+h2+p"
+            ).text
+            how_to_start += driver.find_element_by_css_selector(
+                "a#advancing-your-career+h2+p+div+p"
+            ).text
+        except NoSuchElementException:
+            how_to_start = ""
+
+        career_data_list.append(
+            {
+                "career_name": career_name,
+                "career_info": career_info,
+                "why_career": why_career,
+                "how_to_start": how_to_start,
+            }
+        )
+
+    # Create a data frame of the data collected
+    career_data = pd.DataFrame(
+        career_data_list,
+        columns=["career_name", "career_info", "why_career", "how_to_start"],
+    )
+
+    # Save the data frame created for future use.
+    career_data.to_csv(
+        "bestcolleges_careers.csv", index=False, encoding="utf-8"
+    )
+
+    driver.close()

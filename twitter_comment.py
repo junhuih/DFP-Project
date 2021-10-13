@@ -7,8 +7,9 @@ import requests
 # credential
 bearer_token = "AAAAAAAAAAAAAAAAAAAAALw%2FTwEAAAAA5mGzkkQRzM5lUExaBkZDfYbS3Y0%3DwqRFpCaqzANZn3kiEwO85WoxjE5PAsQ54tSokCZFvPZy0zI2JT"
 
+
 # Get the top twitter comment from twitter through API
-def getTwitterComments(school_name):
+def get_twitter_comments(school_name):
     try:
         url = "https://api.twitter.com/2/tweets/search/recent?query="
         url = url + school_name + '&tweet.fields=created_at'

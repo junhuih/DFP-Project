@@ -11,6 +11,7 @@ import search_colleges as sc
 import average_stats as avg_stat
 import recommender_helper as r_helper
 import bestcolleges_helper as bs_helper
+import fetch_all_data as data_fetcher
 
 
 def college_helper():
@@ -21,9 +22,10 @@ def college_helper():
     print("3. Browse careers")
     print("4. Search colleges")
     print("5. Help")
-    print("6. Exit")
+    print("6. Refresh all data - Takes 15 mins!")
+    print("7. Exit")
 
-    x = h.get_input(6)
+    x = h.get_input(7)
 
     if x == 1:
         get_recommendation()
@@ -37,6 +39,9 @@ def college_helper():
         college_helper()
     elif x == 5:
         help_message()
+    elif x == 6:
+        data_fetcher.refresh_all_data()
+        college_helper()
     else:
         h.exitMessage(x)
         return
