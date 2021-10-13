@@ -15,6 +15,7 @@ from urllib.request import urlopen
 from pandas.core.frame import DataFrame
 from user_agent import DESKTOP_USER_AGENTS
 from selenium.common.exceptions import NoSuchElementException
+import csv
 
 
 edge_driver_path = (
@@ -106,7 +107,7 @@ def clean_roi():
         else s
         for s in roi["School Name"]
     ]
-    os.remove("output.xlsx")
+    #os.remove("output.xlsx")
     return roi
 
 
@@ -122,95 +123,100 @@ def send_request(link):
         return res
     return res
 
-
 def get_niche():
     # create a list with the url of all 82 pages of the ranking
-    allurl = [
-        "https://www.niche.com/colleges/search/best-value-colleges/",
-    ]
-    nexturl = (
-        "https://www.niche.com/colleges/search/best-value-colleges/?page="
-    )
-    for i in range(2, 82):
-        myurl = nexturl + str(i)
+    allurl = ["https://www.niche.com/colleges/search/best-value-colleges/",]
+    nexturl = "https://www.niche.com/colleges/search/best-value-colleges/?page="
+    for i in range(2,3):
+        myurl = nexturl+str(i)
         allurl.append(myurl)
-
+    
     school_name = []
     fact = []
     location = []
-    # iterate and scrape through each link
+    # iterate and scrape through each link 
     for url in allurl:
-        # define the link to be scrape and sent request
-        res = send_request(url)
-        # parse data from each page
-        newsoup = BeautifulSoup(res.text, "html.parser")
-        # find the info on each school
-        # for each school, create a new dict that contain its name and fact
+        #define the link to be scrape and sent request
+        res =send_request(url)
+        #parse data from each page 
+        newsoup = BeautifulSoup(res.text,'html.parser')
+        #find the info on each school
+        #for each school, create a new dict that contain its name and fact 
         for div in newsoup.find_all("div", class_="card"):
             # remove the sponsered colleges
-            if (
-                len(div.find_all("div", class_="search-result__sponsered-bar"))
-                == 0
-            ):
-                school_name.append(
-                    div.find("h2", class_="search-result__title")
-                )
-                fact.append(
-                    div.find_all("span", class_="search-result-fact__value")
-                )
-                if (
-                    len(
-                        div.find_all(
-                            "li", class_="search-result-tagline__item"
-                        )
-                    )
-                    != 0
-                ):
-                    location.append(
-                        div.find_all(
-                            "li", class_="search-result-tagline__item"
-                        )[1]
-                    )
+            if len(div.find_all("div", class_="search-result__sponsered-bar"))==0:
+                school_name.append(div.find("h2", class_="search-result__title"))
+                fact.append(div.find_all("span", class_= "search-result-fact__value"))
+                if len(div.find_all("li", class_= "search-result-tagline__item"))!=0:
+                    location.append(div.find_all("li", class_= "search-result-tagline__item")[1])
                 else:
-                    location.append("null")
-
+                    location.append('null')
+                    
     cleaned_school_name = []
     for i in school_name:
-        new = str(i).split(">")
-        if len(new) < 2:
+        new = str(i).split('>')
+        if (len(new)<2):
             cleaned_school_name.append("null")
-        else:
-            cleaned_school_name.append(new[1].split("<")[0])
+        else: 
+            cleaned_school_name.append(new[1].split('<')[0])
 
     cleaned_fact = []
     for list in fact:
         temp = []
         for i in list:
-            new = str(i).split(">")
-            if len(new) < 2:
+            new = str(i).split('>')
+            if (len(new)<2):
                 temp.append("null")
-            else:
-                temp.append(new[1].split("<")[0])
+            else: 
+                temp.append(new[1].split('<')[0])
         cleaned_fact.append(temp)
 
     cleaned_location = []
     for i in location:
-        new = str(i).split(">")
-        if len(new) < 2:
+        new = str(i).split('>')
+        if (len(new)<2):
             cleaned_location.append("null")
-        else:
-            cleaned_location.append(new[1].split("<")[0])
+        else: 
+            cleaned_location.append(new[1].split('<')[0])
+    
     city = []
     state = []
     for i in cleaned_location:
-        new = i.split(", ")
-        if len(new) < 2:
+        new = i.split(', ')
+        if (len(new)<2):
             city.append("null")
             state.append("null")
-        else:
+        else: 
             city.append(new[0])
             state.append(new[1])
-
+    
+    Acceptance_Rate = []
+    Net_Price = []
+    SAT_Range = []
+    
+    for eachfact in cleaned_fact:
+        if len(eachfact)>0:
+            Acceptance_Rate.append(eachfact[0]), Net_Price.append(eachfact[1])
+            if len(eachfact)==3:
+                if len(eachfact[2])>1:
+                    SAT_Range.append(eachfact[2])
+                else:
+                    SAT_Range.append("null")
+            else:
+                SAT_Range.append("null")
+        else: 
+            Acceptance_Rate.append("null"), Net_Price.append("null"), SAT_Range.append("null")
+    
+    file = open("cleaned_niche.csv", "w", newline = "")
+    writer = csv.writer(file)
+    # field names 
+    fields = ['School Name', 'City', 'State', 'Acceptance Rate', 'Net Price', 'SAT Range'] 
+    writer.writerow(fields)
+    for i in range(len(cleaned_school_name)):
+        if cleaned_school_name[i] != "null":
+            writer.writerow([cleaned_school_name[i], city[i], state[i], Acceptance_Rate[i], Net_Price[i], SAT_Range[i]])
+    
+    file.close()
 
 #######################Merge the data#######################
 def add_calculation_columns(merged_data):
@@ -334,3 +340,5 @@ def get_careers_data():
     )
 
     driver.close()
+
+get_niche()
