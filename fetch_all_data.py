@@ -3,7 +3,7 @@
 @author: Yifan Cheng, Skylar Du, Yashash Gaurav, Mark He
 """
 
-import os
+# import os
 import time
 import random
 import requests
@@ -107,7 +107,10 @@ def clean_roi():
         else s
         for s in roi["School Name"]
     ]
+<<<<<<< Updated upstream
     #os.remove("output.xlsx")
+=======
+>>>>>>> Stashed changes
     return roi
 
 
@@ -220,7 +223,7 @@ def get_niche():
 
 #######################Merge the data#######################
 def add_calculation_columns(merged_data):
-    def convert_curreny_to_int(currency):
+    def convert_currency_to_int(currency):
         try:
             return int(currency.replace(",", "").replace("$", ""))
         except:
@@ -246,7 +249,7 @@ def add_calculation_columns(merged_data):
     )
     merged_data["Total 4 Year Cost (Integer)"] = merged_data[
         "Total 4 Year Cost"
-    ].map(lambda x: convert_curreny_to_int(x))
+    ].map(lambda x: convert_currency_to_int(x))
 
 
 def merge_data():

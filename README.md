@@ -72,5 +72,6 @@ Menu:
 3. Browse careers
 4. Search colleges
 5. Refresh data - Only refreshes data that does not need a WebDriver. To collect all data, make sure you set the Edge Driver path in the fetch_all_data.py file and uncomment the code line in refresh_all_data() method.
+6. Help! - Shows our dear client what our application will do for them
 
 Demo video: https://www.youtube.com/watch?v=V7iRnBtlZ7c
