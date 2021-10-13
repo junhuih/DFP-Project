@@ -35,7 +35,7 @@ Then follow the instruction to install it.
 Follow the below instructions or you can just use our 'environment.yaml' to create your own environment
 
 ```
-    conda env create -f environment.yml
+conda env create -f environment.yaml
 ```
 
 else:
