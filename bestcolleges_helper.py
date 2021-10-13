@@ -10,7 +10,7 @@ from fuzzywuzzy import fuzz
 from fuzzywuzzy import process
 
 # Declaring global variables
-bestcolleges_data_path = "data\\bestcolleges_careers.csv"
+bestcolleges_data_path = "bestcolleges_careers.csv"
 bestcolleges_data = pd.read_csv(bestcolleges_data_path)
 
 

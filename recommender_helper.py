@@ -5,7 +5,7 @@
 
 import pandas as pd
 
-merged_data_path = "data\\merged_data.xlsx"
+merged_data_path = "merged_data.xlsx"
 
 merged_data = pd.read_excel(merged_data_path, index_col=0)
 

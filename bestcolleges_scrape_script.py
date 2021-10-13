@@ -10,7 +10,7 @@ from selenium.common.exceptions import NoSuchElementException
 
 # Sanity
 driver = webdriver.Edge(
-    executable_path="C:\\Users\\Yashash Gaurav\\Downloads\\edgedriver_win64 (2)\\msedgedriver.exe"
+    executable_path="your/path/to/edge/web/driver"
 )
 
 
@@ -71,7 +71,7 @@ career_data = pd.DataFrame(
 
 # Save the data frame created for future use.
 career_data.to_csv(
-    "data\\bestcolleges_careers.csv", index=False, encoding="utf-8"
+    "bestcolleges_careers.csv", index=False, encoding="utf-8"
 )
 
 driver.close()
