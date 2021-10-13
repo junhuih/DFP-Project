@@ -53,15 +53,17 @@ else:
 ![image](https://user-images.githubusercontent.com/90162689/137042049-f8d46812-445e-45fc-90ce-2f14f8c412bc.png)
 ![image](https://user-images.githubusercontent.com/90162689/137042054-dde7c886-7cba-4df2-9caa-6dcbdd0a020b.png)
 ![image](https://user-images.githubusercontent.com/90162689/137042067-f8eb5cae-e6fb-401f-b492-d874cde259d4.png)
+![image](https://user-images.githubusercontent.com/90162689/137048200-76fb98a2-327c-4d74-8760-c01c56aa1fa8.png)
+![image](https://user-images.githubusercontent.com/90162689/137048212-4db154e9-7af9-4eaa-988e-9bf28d73cdc5.png)
 
 
 ### 2.3 Run the college_helper.py
-Install Spyder on the current environment.
+1. Install Spyder on the current environment.
 
-Applications on "college_helper"
+2. Applications on "college_helper"
 ![image](https://user-images.githubusercontent.com/90162689/137043910-119e9cef-1939-40ad-904c-134eb2b942f6.png)
 
-Launch Spyder to run the college_helper.py
+3. Launch Spyder to run the college_helper.py
 
 ### 2.4 Navigating the Application & Demo Video
 Menu: 
