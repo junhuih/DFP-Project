@@ -37,7 +37,7 @@ def get_roi():
         html = "https://www.payscale.com/college-roi/page/" + str(page)
         # get HTML
         html = urlopen(html)
-        bsyc = BeautifulSoup(html.read(), "html")
+        bsyc = BeautifulSoup(html.read(), "html.parser")
         fout = open("payscale_temp.txt", "wt", encoding="utf-8")
         fout.write(str(bsyc))
         fout.close()
