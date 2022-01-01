@@ -5,7 +5,7 @@
 import requests
 
 # credential
-bearer_token = "AAAAAAAAAAAAAAAAAAAAALw%2FTwEAAAAA5mGzkkQRzM5lUExaBkZDfYbS3Y0%3DwqRFpCaqzANZn3kiEwO85WoxjE5PAsQ54tSokCZFvPZy0zI2JT"
+bearer_token = "REPLACE_WITH_YOUR_OWN"
 
 
 # Get the top twitter comment from twitter through API
